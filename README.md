@@ -588,3 +588,81 @@ Analysis of Diamond clarity and depth correlation/frequency as well as ratio [pe
 Change Log:
 26 October: Added vignette w/ examples for purrr and forcats, Cameron Smith
 
+---
+title: "Tidyverse"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Tidyverse
+
+In this assignment, you’ll practice collaborating around a code project with GitHub.  You could consider our collective work as building out a book of examples on how to use TidyVerse functions.
+
+GitHub repository:  https://github.com/acatlin/FALL2020TIDYVERSE
+
+FiveThirtyEight.com datasets.
+
+Kaggle datasets. 
+
+Your task here is to Create an Example.  Using one or more TidyVerse packages, and any dataset from fivethirtyeight.com or Kaggle, create a programming sample “vignette” that demonstrates how to use one or more of the capabilities of the selected TidyVerse package with your selected dataset. (25 points)
+
+
+#### Read data using readr::read_csv
+
+```{r }
+library(tidyverse)
+
+pums <- read_csv("https://raw.githubusercontent.com/szx868/data607/master/Tidyverse/2019PUMS_PERSON_DATA_NY.csv")
+
+
+```
+#### Using dplyr::select to have column you needed
+
+```{r}
+select(pums,c("Age","SEX","Total_Personal_Earnings","Total_Personal_Income"))
+
+```
+
+#### Using dplyr::filter to age
+
+```{r}
+filter(pums,Age > 36)
+
+```
+***Mustafa Telab extention**
+###  Summarization
+
+With the select and filter verbs in your arsenal, it is now appropriate to move onto summarize().  And as you will see, Summarize is often utilized with grouby().
+
+```{r}
+
+pums%>%
+  #we remove the NA records to make calculations possible
+  filter(!is.na(Total_Personal_Income))%>%
+  #here we are creating one column that holds the mean of Total_Personal_Income.
+  summarise(avg_income = mean(Total_Personal_Income))
+```
+
+We can create as many summarise columns as we need
+```{r}
+
+pums%>%
+  filter(!is.na(Total_Personal_Income))%>%
+  #here we are creating one column that holds the mean of Total_Personal_Income.
+  summarise(avg_income = mean(Total_Personal_Income), max_ed = max(Educational_Attainment))
+```
+
+
+As mentioned about the groupby() function adds some interesting capabilities.
+```{r}
+
+pums%>%
+  filter(!is.na(Total_Personal_Income))%>%
+  group_by(Age)%>%
+  summarise(avg_income = mean(Total_Personal_Income), max_ed = max(Educational_Attainment))
+```
+
+

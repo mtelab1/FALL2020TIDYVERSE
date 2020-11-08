@@ -43,4 +43,37 @@ filter(pums,Age > 36)
 
 ```
 
+###  Summarization
+
+With the select and filter verbs in your arsenal, it is now appropriate to move onto summarize().  And as you will see, Summarize is often utilized with grouby().
+
+```{r}
+
+pums%>%
+  #we remove the NA records to make calculations possible
+  filter(!is.na(Total_Personal_Income))%>%
+  #here we are creating one column that holds the mean of Total_Personal_Income.
+  summarise(avg_income = mean(Total_Personal_Income))
+```
+
+We can create as many summarise columns as we need
+```{r}
+
+pums%>%
+  filter(!is.na(Total_Personal_Income))%>%
+  #here we are creating one column that holds the mean of Total_Personal_Income.
+  summarise(avg_income = mean(Total_Personal_Income), max_ed = max(Educational_Attainment))
+```
+
+
+As mentioned about the groupby() function adds some interesting capabilities.
+```{r}
+
+pums%>%
+  filter(!is.na(Total_Personal_Income))%>%
+  group_by(Age)%>%
+  summarise(avg_income = mean(Total_Personal_Income), max_ed = max(Educational_Attainment))
+```
+
+
 
